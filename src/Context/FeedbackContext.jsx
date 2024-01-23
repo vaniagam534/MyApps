@@ -1,0 +1,55 @@
+import React from "react";
+import { createContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import feedBackData from "../Data/FeedbackData";
+
+const FeedbackContext = createContext();
+
+export const FeedbackProvider = ({ children }) => {
+  const [feedback, setFeedback] = useState(feedBackData);
+  const [feedbackEdit, setFeedbackEdit] = useState({
+    item: {},
+    edit: false,
+  });
+
+  const editFeedback = (item) => {
+    setFeedbackEdit({
+      item,
+      edit: true,
+    });
+  };
+
+  const updateFeedback = (id, upditm) => {
+    setFeedback(
+      feedback.map((item) => (item.id === id ? { ...item, ...upditm } : item))
+    );
+  };
+
+  const deleteFeedback = (id) => {
+    if (window.confirm("R u sure you want to delete the Feedback?")) {
+      setFeedback(feedback.filter((item) => item.id !== id));
+    }
+  };
+
+  const addFeedback = (newFeedback) => {
+    newFeedback.id = uuidv4();
+    console.log(newFeedback.id);
+    setFeedback([newFeedback, ...feedback]);
+  };
+
+  return (
+    <FeedbackContext.Provider
+      value={{
+        feedback,
+        deleteFeedback,
+        addFeedback,
+        editFeedback,
+        feedbackEdit,
+        updateFeedback,
+      }}
+    >
+      {children}
+    </FeedbackContext.Provider>
+  );
+};
+export default FeedbackContext;
