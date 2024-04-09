@@ -1,2 +1,2 @@
-# MyApps
-It contains Apps created in React.
+#FeebBackApp
+It is a feedback App created using React.
